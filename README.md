@@ -6,3 +6,5 @@ Visor web geográfico con funcionalidades de edición.
 
 ## Primera versión básada en el ejemplo de ArcGIS:
 - https://developers.arcgis.com/javascript/3/sandbox/sandbox.html?sample=ed_default_editingwidget
+
+..
