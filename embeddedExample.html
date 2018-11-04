@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0px;
+        }
+
+        table {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            border: solid 1px red;
+            background-color: cornsilk;
+            text-align: center;
+        }
+
+        td {
+            border: 1px solid black;
+
+        }
+
+        iframe {
+            width: 100%;
+            height: 300px;
+        }
+
+        .header {
+            top: 0px;
+        }
+
+        .center {
+            position: inherit;
+            margin-top: 110px;
+            height: auto;
+        }
+
+        .footer {
+            bottom: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <td>
+                <h1>Embedded Example</h1>
+            </td>
+        </tr>
+        <tr>
+            <td>Center
+                <iframe src="index.html" frameborder="0"></iframe>
+            </td>
+        </tr>
+        <tr>
+            <td>Footer</td>
+        </tr>
+    </table>
+</body>
+
+</html>

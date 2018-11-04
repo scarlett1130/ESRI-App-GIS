@@ -7,4 +7,5 @@ Visor web geográfico con funcionalidades de edición.
 ## Primera versión básada en el ejemplo de ArcGIS:
 - https://developers.arcgis.com/javascript/3/sandbox/sandbox.html?sample=ed_default_editingwidget
 
-..
+## Ejemplo embedded
+Un ejemplo embebiendo el visor en un página web se present en [https://jofremanchola.github.io/ESRI-App-GIS/embeddedExample.html](https://jofremanchola.github.io/ESRI-App-GIS/embeddedExample.html)
