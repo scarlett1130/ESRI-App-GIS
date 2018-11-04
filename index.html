@@ -9,7 +9,17 @@
   <link rel="stylesheet" href="https://js.arcgis.com/3.26/dijit/themes/claro/claro.css">
   <link rel="stylesheet" href="https://js.arcgis.com/3.26/esri/css/esri.css">
   <link rel="stylesheet" href="style.css">
-
+  <script>
+    var dojoConfig = {
+      isDebug: false,
+      packages: [
+        {
+          name: "extras",
+          location: location.href + "extras"
+        }
+      ]
+    };
+  </script>
   <script src="https://js.arcgis.com/3.26/"></script>
   <script src="main.js"></script>
 </head>

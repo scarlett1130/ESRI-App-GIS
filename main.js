@@ -7,6 +7,7 @@ require([
     "esri/dijit/LayerList",
     "esri/dijit/Legend",
     "esri/dijit/editing/Editor",
+    "extras/Search",
     "esri/layers/FeatureLayer",
     "esri/tasks/GeometryService",
     "esri/toolbars/draw",
@@ -19,7 +20,9 @@ require([
     "dijit/layout/TabContainer",
     "dojo/domReady!"
 ], function (
-    esriConfig, Map, SnappingManager, LayerList, Legend, Editor, FeatureLayer, GeometryService,
+    esriConfig, Map, SnappingManager, LayerList, Legend, Editor,
+    Search,
+    FeatureLayer, GeometryService,
     Draw, keys, parser, arrayUtils, i18n
 ) {
 
@@ -83,12 +86,17 @@ require([
             showSubLayers: true
         }, "layerList");
         layerList.startup();
-        
-        var Legend = new Legend({
+
+        var legend = new Legend({
             map: map
-            
+
         }, "legend");
-        Legend.startup();
+        legend.startup();
+
+        var search = new Search({
+            map: map
+        }, "search");
+        search.startup();
 
         function initEditing(event) {
             var featureLayerInfos = arrayUtils.map(event.layers, function (layer) {
