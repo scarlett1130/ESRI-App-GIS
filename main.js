@@ -4,6 +4,8 @@ require([
     "esri/config",
     "esri/map",
     "esri/SnappingManager",
+    "esri/dijit/LayerList",
+    "esri/dijit/Legend",
     "esri/dijit/editing/Editor",
     "esri/layers/FeatureLayer",
     "esri/tasks/GeometryService",
@@ -14,9 +16,10 @@ require([
     "dojo/i18n!esri/nls/jsapi",
     "dijit/layout/BorderContainer",
     "dijit/layout/ContentPane",
+    "dijit/layout/TabContainer",
     "dojo/domReady!"
 ], function (
-    esriConfig, Map, SnappingManager, Editor, FeatureLayer, GeometryService,
+    esriConfig, Map, SnappingManager, LayerList, Legend, Editor, FeatureLayer, GeometryService,
     Draw, keys, parser, arrayUtils, i18n
 ) {
 
@@ -58,10 +61,6 @@ require([
             mode: FeatureLayer.MODE_ONDEMAND,
             outFields: ["*"]
         });
-        // var operationsLineLayer = new FeatureLayer("https://services5.arcgis.com/lVkj5PBOw7tRmIPU/arcgis/rest/services/HSEC/FeatureServer/1", {
-        //     mode: FeatureLayer.MODE_ONDEMAND,
-        //     outFields: ["*"]
-        // });
         var operationsPolygonLayer_contrato = new FeatureLayer("https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/4", {
             mode: FeatureLayer.MODE_ONDEMAND,
             outFields: ["*"]
@@ -75,6 +74,21 @@ require([
             operationsPointLayer_facilidad
         ]);
         map.infoWindow.resize(400, 300);
+
+        var layerList = new LayerList({
+            map: map,
+            removeUnderscores: true,
+            showLegend: true,
+            showOpacitySlider: true,
+            showSubLayers: true
+        }, "layerList");
+        layerList.startup();
+        
+        var Legend = new Legend({
+            map: map
+            
+        }, "legend");
+        Legend.startup();
 
         function initEditing(event) {
             var featureLayerInfos = arrayUtils.map(event.layers, function (layer) {
