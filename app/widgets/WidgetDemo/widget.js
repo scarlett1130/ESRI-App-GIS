@@ -25,7 +25,7 @@ define([
       templateString: templateString,
       config: JSON.parse(config),
 
-      baseClass: 'population-info',
+      baseClass: 'widget-demo',
 
       postCreate: function () {
         this.inherited(arguments);
