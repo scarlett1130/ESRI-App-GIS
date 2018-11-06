@@ -20,7 +20,7 @@ define([
     "dojo/domReady!"
 ], function (
     esriConfig, Map, SnappingManager, LayerList, Legend, Editor,
-    Search,PopulationWidget,
+    Search,WidgetDemo,
     FeatureLayer, GeometryService,
     Draw, keys, parser, arrayUtils, i18n
 ) {
@@ -96,11 +96,11 @@ define([
             map: map
         }, "search");
         search.startup();
-        var populationWidget = new PopulationWidget({          
+        var demoWidget = new WidgetDemo({          
             map: map,
             url: 'http://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Counties_Generalized/FeatureServer/0'
           }, 'demo');
-        populationWidget.startup();  
+        demoWidget.startup();  
         function initEditing(event) {
             var featureLayerInfos = arrayUtils.map(event.layers, function (layer) {
                 return {

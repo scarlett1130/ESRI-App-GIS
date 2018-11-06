@@ -9,7 +9,8 @@ define([
   'dijit/_TemplatedMixin',
   'esri/layers/FeatureLayer',
   'dojo/text!./widget.html',
-  'dojo/text!./config.json'
+  'dojo/text!./config.json',
+  'xstyle/css!./css/style.css'
 ], function (
   declare, lang, topic, dom, Evented,dojoBtn,
   _WidgetBase, _TemplatedMixin,
@@ -36,7 +37,7 @@ define([
       },
       startup: function () {
         this.inherited(arguments);
-        console.log('Search::startup');
+        console.log('demoWidget');
     },
       _crearBoton: function (prop, parent, click) {
         var boton = new dojoBtn({ label: prop });
