@@ -6,10 +6,12 @@ define([
     "esri/dijit/Legend",
     "esri/dijit/editing/Editor",
     "extras/Search",
-    'app/widgets/WidgetDemo/widget',   
+    'app/widgets/WidgetDemo/widget', 
+    'app/widgets/editor/widget',    
     "esri/layers/FeatureLayer",
     "esri/tasks/GeometryService",
     "esri/toolbars/draw",
+    "dojo/dom-construct",
     "dojo/keys",
     "dojo/parser",
     "dojo/_base/array",
@@ -20,32 +22,34 @@ define([
     "dojo/domReady!"
 ], function (
     esriConfig, Map, SnappingManager, LayerList, Legend, Editor,
-    Search,WidgetDemo,
+    Search,WidgetDemo,Editor,
     FeatureLayer, GeometryService,
-    Draw, keys, parser, arrayUtils, i18n
+    Draw, domConstruct,keys, parser, arrayUtils, i18n
 ) {
 
         parser.parse();
-
-        //snapping is enabled for this sample - change the tooltip to reflect this
-        i18n.toolbars.draw.start += "<br/>Press <b>CTRL</b> to enable snapping";
-        i18n.toolbars.draw.addPoint += "<br/>Press <b>CTRL</b> to enable snapping";
-
-        //This sample requires a proxy page to handle communications with the ArcGIS Server services. You will need to
-        //replace the url below with the location of a proxy on your machine. See the 'Using the proxy page' help topic
-        //for details on setting up a proxy page.
-        esriConfig.defaults.io.proxyUrl = "/proxy/";
-
-        //This service is for development and testing purposes only. We recommend that you create your own geometry service for use within your applications
-        esriConfig.defaults.geometryService = new GeometryService("https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
-
         var map = new Map("map", {
             basemap: "topo",
             center: [-73.78, 6.95],
             zoom: 12
         });
+        /*var aux=dojo.byId("aux");
+        var aux1=dijit.byId("aux");     
+        console.log(aux);
+        console.log(aux1);*/
+       
+        //snapping is enabled for this sample - change the tooltip to reflect this
+        // i18n.toolbars.draw.start += "<br/>Press <b>CTRL</b> to enable snapping";
+        // i18n.toolbars.draw.addPoint += "<br/>Press <b>CTRL</b> to enable snapping";
 
-        map.on("layers-add-result", initEditing);
+        //This sample requires a proxy page to handle communications with the ArcGIS Server services. You will need to
+        //replace the url below with the location of a proxy on your machine. See the 'Using the proxy page' help topic
+        //for details on setting up a proxy page.
+       
+
+        
+
+        // map.on("layers-add-result", initEditing);
 
         var operationsPointLayer_facilidad = new FeatureLayer("https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/0", {
             mode: FeatureLayer.MODE_ONDEMAND,
@@ -75,7 +79,7 @@ define([
             operationsPointLayer_medidoresp,
             operationsPointLayer_facilidad
         ]);
-        map.infoWindow.resize(400, 300);
+        // map.infoWindow.resize(400, 300);
 
         var layerList = new LayerList({
             map: map,
@@ -100,7 +104,33 @@ define([
             map: map,
             url: 'http://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Counties_Generalized/FeatureServer/0'
           }, 'demo');
-        demoWidget.startup();  
+        demoWidget.startup();
+        var editor= new Editor(
+            {
+                map: map 
+            },"editorDiv"
+        );
+        editor.startup();
+       /* aux1.watch("selectedChildWidget", function(name, oval, nval){
+            if(nval.title!=='Editor')
+            {
+                editor.destroy();
+                editor=null;
+                alert("hola");
+            }
+            else
+            {
+                domConstruct.create("div", { id: "editorDiv", innerHTML: "" }, "templatePickerPane");
+                var editor= new Editor(
+                    {
+                        map: map 
+                    },"editorDiv"
+                );
+                editor.startup();
+                // map.on("layers-add-result", initEditing);
+            }
+            console.log("selected child changed from ", oval, " to ", nval);
+        });*/
         function initEditing(event) {
             var featureLayerInfos = arrayUtils.map(event.layers, function (layer) {
                 return {
@@ -115,7 +145,7 @@ define([
             var params = {
                 settings: settings
             };
-            var editorWidget = new Editor(params, 'editorDiv');
+            editorWidget = new Editor(params, 'editorDiv');
             editorWidget.startup();
 
             //snapping defaults to Cmd key in Mac & Ctrl in PC.
