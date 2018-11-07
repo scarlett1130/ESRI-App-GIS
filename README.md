@@ -9,3 +9,4 @@ Visor web geográfico con funcionalidades de edición.
 
 ## Ejemplo ```embedded```
 Un ejemplo embebiendo el visor en un página web se presenta en [https://jofremanchola.github.io/ESRI-App-GIS/embeddedExample.html](https://jofremanchola.github.io/ESRI-App-GIS/embeddedExample.html)
+...
