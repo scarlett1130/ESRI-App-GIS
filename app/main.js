@@ -66,15 +66,15 @@ define([
             infoTemplate: popupFacilidades
 
         });
-        var operationsPointLayer_medidoresp = new FeatureLayer("https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/2", {
+        var operationsPointLayer_medidoresp = new FeatureLayer("https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/1", {
             mode: FeatureLayer.MODE_ONDEMAND,
             outFields: ["*"],
-            infoTemplate: popupPozos            
+            infoTemplate: popupMedidores            
         });
-        var operationsPointLayer_pozos = new FeatureLayer("https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/1", {
+        var operationsPointLayer_pozos = new FeatureLayer("https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/2", {
             mode: FeatureLayer.MODE_ONDEMAND,
             outFields: ["*"],
-            infoTemplate: popupMedidores
+            infoTemplate: popupPozos
         });
         var operationsPointLayer_tanques = new FeatureLayer("https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/3", {
             mode: FeatureLayer.MODE_ONDEMAND,
