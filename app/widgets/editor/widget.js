@@ -28,7 +28,7 @@ define([
 ], function (
   declare, lang, topic, dom, Evented, dojoBtn,
   _WidgetBase, _TemplatedMixin, templateString,
-  config, esriConfig, Map, SnappingManager, Editor,TemplatePicker, FeatureLayer, GeometryService,
+  config, esriConfig, Map, SnappingManager, Editor, TemplatePicker, FeatureLayer, GeometryService,
   Draw, keys, parser, arrayUtils, i18n
 ) {
 
@@ -39,6 +39,7 @@ define([
       templateString: templateString,
       config: JSON.parse(config),
       map: null,
+      template: null,
       baseClass: 'widget-editor',
 
       postCreate: function () {
@@ -55,12 +56,6 @@ define([
         this.inherited(arguments);
         //console.log('demoWidget');
       },
-      _crearBoton: function (prop, parent, click) {
-        var boton = new dojoBtn({ label: prop });
-        boton.startup();
-        boton.placeAt(parent);
-        boton.on("click", click);
-      },
       initEditing: function (event) {
         var featureLayerInfos1 = arrayUtils.map(Object.keys(this.map._layers), hitch(this, function (layer) {
           if (layer.includes("graphicsLayer")) {
@@ -73,23 +68,23 @@ define([
           if (layer.includes("graphicsLayer")) {
             return this.map._layers[layer]
           }
-        })); 
+        }));
         var templateLayers = [];
         for (var i = 0; i < templateLayers1.length; i++) {
           if (templateLayers1[i]) {
             templateLayers.push(templateLayers1[i]);
           }
 
-        }      
-        var templatePicker = new TemplatePicker({
+        }
+        this.template = new TemplatePicker({
           featureLayers: templateLayers,
           grouping: false,
           rows: 6,
           columns: "auto",
-          useLegend:false,  
-          style: "height: 100%"       
+          useLegend: false,
+          style: "height: 100%"
         }, "editorDivPanel");
-        templatePicker.startup();
+        this.template.startup();
 
         var featureLayerInfos = [];
         for (var i = 0; i < featureLayerInfos1.length; i++) {
@@ -100,13 +95,13 @@ define([
         }
         var settings = {
           map: this.map,
-          templatePicker: templatePicker,
+          templatePicker: this.template,
           layerInfos: featureLayerInfos
         };
         var params = {
           settings: settings
         };
-        editorWidget = new Editor(params);
+        editorWidget = new Editor(params,"editorMap");
         editorWidget.startup();
         this.map.enableSnapping();
       }

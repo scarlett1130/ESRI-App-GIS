@@ -44,6 +44,7 @@ define([
         tabEditor.watch("selectedChildWidget", lang.hitch(this, function (name, oval, nval) {
             if (nval.title !== 'Editor') {
                 if (dojo.byId("editorDiv")) {
+                    this.editor.template.destroy();
                     this.editor.destroy();
                     this.editor = null;
                 }
