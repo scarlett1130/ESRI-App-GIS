@@ -9,7 +9,7 @@ define([
     'app/widgets/WidgetDemo/widget',
     'app/widgets/editor/widget',
     'app/widgets/identificar/widget',
-    'app/widgets/_Search/widget',
+    'app/widgets/Search/widget',
     'app/utils/maputils',
     'app/utils/popupMedidores',
     'app/utils/popupContratos',
