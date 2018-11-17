@@ -5,11 +5,11 @@ define([
     "esri/SnappingManager",
     "esri/dijit/LayerList",
     "esri/dijit/Legend",
-    "esri/dijit/editing/Editor",
-    "extras/Search",
+    "esri/dijit/editing/Editor",    
     'app/widgets/WidgetDemo/widget',
     'app/widgets/editor/widget',
     'app/widgets/identificar/widget',
+    'app/widgets/_Search/widget',
     'app/utils/maputils',
     'app/utils/popupMedidores',
     'app/utils/popupContratos',
@@ -32,7 +32,7 @@ define([
     "dojo/domReady!"
 ], function (
     esriConfig, Map, SnappingManager, LayerList, Legend, Editor,
-    Search, WidgetDemo, Editor, identificar, maputils, popupMedidores,
+    WidgetDemo, Editor, identificar,buscar ,maputils, popupMedidores,
     popupContratos, popupFacilidades, popupPozos, popupTanques,
     FeatureLayer, Scalebar,
     Draw, domConstruct, keys, on, parser, lang, arrayUtils, i18n
@@ -131,7 +131,7 @@ define([
         }, "legend");
         legend.startup();
 
-        var search = new Search({
+        /*var search = new Search({
             map: map
         }, "search");
         search.startup();
@@ -139,13 +139,17 @@ define([
             map: map,
             url: 'http://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Counties_Generalized/FeatureServer/0'
         }, 'demo');
-        demoWidget.startup();
+        demoWidget.startup();*/
         editor = new Editor(
             {
                 map: map
             }, "editorDiv"
         );
         editor.startup();
+        var busca= new buscar({
+            map: map
+        },"busqueda");
+        busca.startup();
         /*var identi=new identificar({
             map:map,
             url:"http://localhost:6080/arcgis/rest/services/Capas/capasEdicion/MapServer"
