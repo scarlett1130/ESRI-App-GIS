@@ -86,17 +86,20 @@ define([
         });
         if (jsonFacilidades.facilidades.length > 0) {
           this._crearCombo(jsonFacilidades.facilidades, "selectFacilidades", "selectFacilidades", "nombre");
+          document.getElementById("searchFacilidad").style.display = "block";
           var select = dijit.byId('selectFacilidades');
           select.on('change', lang.hitch(this, function () {
             dojo.byId("labelMedidores").innerHTML = "";
             dojo.byId("labelPozos").innerHTML = "";
             dojo.byId("labelTanques").innerHTML = "";
-            this._consulta(this.config.urlFacilidades, ["facilidad", "id_facilidad"], "facilidad", "facilidad is not null and id_facilidad is not null and id_facilidad=" + select.item.id_facilidad, this._zoomFeatures, true);
-            this._consulta(this.config.urlPozos, ["pozo", "id_pozo"], "pozo", "pozo is not null and id_pozo is not null and id_facilidad=" + select.item.id_facilidad, this._jsonPozos, false);
-            this._consulta(this.config.urlTanques, ["tanque", "id_tanque"], "tanque", "tanque is not null and id_tanque is not null and id_facilidad=" + select.item.id_facilidad, this._jsonTanques, false);
-            this._consulta(this.config.urlMedidores, ["medidor", "id_medidor"], "medidor", "medidor is not null and id_medidor is not null and id_facilidad=" + select.item.id_facilidad, this._jsonMedidores, false);
-          }));
-          document.getElementById("combosSearch").style.display = "block";
+            if (select.item) {
+              this._consulta(this.config.urlFacilidades, ["facilidad", "id_facilidad"], "facilidad", "facilidad is not null and id_facilidad is not null and id_facilidad=" + select.item.id_facilidad, this._zoomFeatures, true);
+              this._consulta(this.config.urlPozos, ["pozo", "id_pozo"], "pozo", "pozo is not null and id_pozo is not null and id_facilidad=" + select.item.id_facilidad, this._jsonPozos, false);
+              this._consulta(this.config.urlTanques, ["tanque", "id_tanque"], "tanque", "tanque is not null and id_tanque is not null and id_facilidad=" + select.item.id_facilidad, this._jsonTanques, false);
+              this._consulta(this.config.urlMedidores, ["medidor", "id_medidor"], "medidor", "medidor is not null and id_medidor is not null and id_facilidad=" + select.item.id_facilidad, this._jsonMedidores, false);
+              document.getElementById("combosSearch").style.display = "block";
+            }
+          }));          
         }
         else {
           dojo.byId("labelFacilidad").innerHTML = "<h3>No hay registros disponibles</h3>"
@@ -119,9 +122,9 @@ define([
         });
         this._crearCombo(jsonPozos.pozos, "selectPozos", "selectPozos", "nombre");
         var select = dijit.byId('selectPozos');
-        select.on('change', lang.hitch(this,function(){          
+        select.on('change', lang.hitch(this, function () {
           this._consulta(this.config.urlPozos, ["pozo", "id_pozo"], "pozo", "id_pozo=" + select.item.id_pozo, this._zoomFeatures, true);
-        }));   
+        }));
       },
       _jsonTanques: function (results) {
         dojo.byId("labelTanques").innerHTML = "<label>Seleccione el taque</label>";
@@ -135,10 +138,10 @@ define([
         });
         this._crearCombo(jsonTanques.tanques, "selectTanques", "selectTanques", "nombre");
         var select = dijit.byId('selectTanques');
-        select.on('change', lang.hitch(this,function(){
-          this._consulta(this.config.urlTanques, ["tanque", "id_tanque"], "tanque", "id_tanque=" + select.item.id_tanque, this._zoomFeatures, true);        
-          
-        }));   
+        select.on('change', lang.hitch(this, function () {
+          this._consulta(this.config.urlTanques, ["tanque", "id_tanque"], "tanque", "id_tanque=" + select.item.id_tanque, this._zoomFeatures, true);
+
+        }));
       },
       _jsonMedidores: function (results) {
         dojo.byId("labelMedidores").innerHTML = "<label>Seleccione el medidor</label>";
@@ -152,9 +155,9 @@ define([
         });
         this._crearCombo(jsonMedidores.medidores, "selectMedidores", "selectMedidores", "nombre");
         var select = dijit.byId('selectMedidores');
-        select.on('change', lang.hitch(this,function(){          
+        select.on('change', lang.hitch(this, function () {
           this._consulta(this.config.urlMedidores, ["medidor", "id_medidor"], "medidor", "id_medidor=" + select.item.id_medidor, this._zoomFeatures, true);
-        }));   
+        }));
       },
       _crearSelect: function (array, nam, label, domId, clave) {
         var combo = dijit.byId(domId + "-" + nam);
