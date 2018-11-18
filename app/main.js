@@ -5,11 +5,11 @@ define([
     "esri/SnappingManager",
     "esri/dijit/LayerList",
     "esri/dijit/Legend",
-    "esri/dijit/editing/Editor",    
+    "esri/dijit/editing/Editor",
     'app/widgets/WidgetDemo/widget',
     'app/widgets/editor/widget',
     'app/widgets/identificar/widget',
-    'app/widgets/Search/widget',
+    'app/widgets/Search/widget',    
     'app/utils/maputils',
     'app/utils/popupMedidores',
     'app/utils/popupContratos',
@@ -18,6 +18,8 @@ define([
     'app/utils/popupTanques',
     "esri/layers/FeatureLayer",
     "esri/dijit/Scalebar",
+    "esri/dijit/HomeButton",
+    "esri/dijit/BasemapGallery",
     "esri/toolbars/draw",
     "dojo/dom-construct",
     "dojo/keys",
@@ -32,14 +34,14 @@ define([
     "dojo/domReady!"
 ], function (
     esriConfig, Map, SnappingManager, LayerList, Legend, Editor,
-    WidgetDemo, Editor, identificar,buscar ,maputils, popupMedidores,
+    WidgetDemo, Editor, identificar, buscar, maputils, popupMedidores,
     popupContratos, popupFacilidades, popupPozos, popupTanques,
-    FeatureLayer, Scalebar,
+    FeatureLayer, Scalebar, HomeButton,BasemapGallery,
     Draw, domConstruct, keys, on, parser, lang, arrayUtils, i18n
 ) {
 
         parser.parse();
-        var map = maputils; 
+        var map = maputils;
         var tabEditor = dijit.byId("editor");
         tabEditor.watch("selectedChildWidget", lang.hitch(this, function (name, oval, nval) {
             if (nval.title !== 'Editor') {
@@ -70,7 +72,7 @@ define([
         var operationsPointLayer_medidoresp = new FeatureLayer("https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/1", {
             mode: FeatureLayer.MODE_ONDEMAND,
             outFields: ["*"],
-            infoTemplate: popupMedidores            
+            infoTemplate: popupMedidores
         });
         var operationsPointLayer_pozos = new FeatureLayer("https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/2", {
             mode: FeatureLayer.MODE_ONDEMAND,
@@ -94,40 +96,44 @@ define([
             operationsPointLayer_tanques,
             operationsPointLayer_medidoresp,
             operationsPointLayer_facilidad
-        ]);        
+        ]);
         var layerList = new LayerList({
-            map: map,        
-            removeUnderscores: true,           
+            map: map,
+            removeUnderscores: true,
             showOpacitySlider: true,
             showSubLayers: true
         }, "layerList");
         layerList.startup();
-        on(layerList, 'load', function (evt) {            
-            for(var i=0;i<evt.detail.widget.layers.length;i++)
-            {
-                if( evt.detail.widget.layers[i].id==='layer0')
-                {
-                    evt.detail.widget.layers.splice(i, 1 );                   
-                }              
+        on(layerList, 'load', function (evt) {
+            for (var i = 0; i < evt.detail.widget.layers.length; i++) {
+                if (evt.detail.widget.layers[i].id === 'layer0') {
+                    evt.detail.widget.layers.splice(i, 1);
+                }
             }
-            for(var i=0;i<evt.detail.widget._loadedLayers.length;i++)
-            {
-                if(evt.detail.widget._loadedLayers[i].layerInfo.id==='layer0')
-                {
-                    evt.detail.widget._loadedLayers.splice(i, 1 );
-                                        
-                }              
-            } 
-            evt.detail.widget.refresh();  
+            for (var i = 0; i < evt.detail.widget._loadedLayers.length; i++) {
+                if (evt.detail.widget._loadedLayers[i].layerInfo.id === 'layer0') {
+                    evt.detail.widget._loadedLayers.splice(i, 1);
+
+                }
+            }
+            evt.detail.widget.refresh();
         })
         var scalebar = new Scalebar({
             map: map,
-            scalebarStyle:"ruler",
-            scalebarUnit:"metric"
-          });
+            scalebarStyle: "ruler",
+            scalebarUnit: "metric"
+        });        
+        var home = new HomeButton({
+            map: map
+        }, "HomeButton");
+        home.startup();
+        var basemapGallery = new BasemapGallery({
+            showArcGISBasemaps: true,
+            map: map
+          }, "basemapGallery");
+          basemapGallery.startup();
         var legend = new Legend({
             map: map
-
         }, "legend");
         legend.startup();
 
@@ -146,9 +152,9 @@ define([
             }, "editorDiv"
         );
         editor.startup();
-        var busca= new buscar({
+        var busca = new buscar({
             map: map
-        },"busqueda");
+        }, "busqueda");
         busca.startup();
         /*var identi=new identificar({
             map:map,

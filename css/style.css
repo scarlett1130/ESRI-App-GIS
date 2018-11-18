@@ -27,7 +27,12 @@ body {
   overflow: hidden;
   padding: 10px 10px 10px 10px;
 }
-
+#HomeButton {
+  position: absolute;
+  top: 95px;
+  left: 20px;
+  z-index: 50;
+}
 #map {
   margin-right: 5px;
   padding: 0;
