@@ -58,14 +58,14 @@ define([
       },
       initEditing: function (event) {
         var featureLayerInfos1 = arrayUtils.map(Object.keys(this.map._layers), hitch(this, function (layer) {
-          if (layer.includes("graphicsLayer")) {
+          if (layer.includes("capa_")) {
             return {
               "featureLayer": this.map._layers[layer]
             };
           }
         }));
         var templateLayers1 = arrayUtils.map(Object.keys(this.map._layers), hitch(this, function (layer) {
-          if (layer.includes("graphicsLayer")) {
+          if (layer.includes("capa_")) {
             return this.map._layers[layer]
           }
         }));

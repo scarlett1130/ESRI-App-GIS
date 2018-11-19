@@ -6,13 +6,13 @@
     "urlMedidores": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/1",
     "layers": {
         "pozos": {
-            "color": [255,0,0]
-        },
-        "tanques": {
             "color": [0,255,0]
         },
-        "medidores": {
+        "tanques": {
             "color": [0,0,255]
+        },
+        "medidores": {
+            "color": [255,0,0]
         }
     }
 }

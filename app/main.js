@@ -1,4 +1,5 @@
 var editor = null;
+var layerList = null;
 define([
     "esri/config",
     "esri/map",
@@ -9,7 +10,7 @@ define([
     'app/widgets/WidgetDemo/widget',
     'app/widgets/editor/widget',
     'app/widgets/identificar/widget',
-    'app/widgets/Search/widget',    
+    'app/widgets/Search/widget',
     'app/utils/maputils',
     'app/utils/popupMedidores',
     'app/utils/popupContratos',
@@ -28,6 +29,7 @@ define([
     'dojo/_base/lang',
     "dojo/_base/array",
     "dojo/i18n!esri/nls/jsapi",
+    'dojo/text!./config.json',
     "dijit/layout/BorderContainer",
     "dijit/layout/ContentPane",
     "dijit/layout/TabContainer",
@@ -36,11 +38,12 @@ define([
     esriConfig, Map, SnappingManager, LayerList, Legend, Editor,
     WidgetDemo, Editor, identificar, buscar, maputils, popupMedidores,
     popupContratos, popupFacilidades, popupPozos, popupTanques,
-    FeatureLayer, Scalebar, HomeButton,BasemapGallery,
-    Draw, domConstruct, keys, on, parser, lang, arrayUtils, i18n
+    FeatureLayer, Scalebar, HomeButton, BasemapGallery,
+    Draw, domConstruct, keys, on, parser, lang, arrayUtils, i18n, config
 ) {
 
         parser.parse();
+        var configCapas = JSON.parse(config);
         var map = maputils;
         var tabEditor = dijit.byId("editor");
         tabEditor.watch("selectedChildWidget", lang.hitch(this, function (name, oval, nval) {
@@ -48,81 +51,72 @@ define([
                 if (dojo.byId("editorDiv")) {
                     this.editor.template.destroy();
                     this.editor.destroy();
-                    this.editor = null;
+                    this.editor = null;                    
                 }
+                // else if (nval.title !== 'Busqueda') {
+                //     addLayers();
+                //     //removerRelaciones();                
+                // }
             }
             else {
                 domConstruct.create("div", { id: "editorDiv", innerHTML: "" }, "templatePickerPane");
-                editor = new Editor(
+                this.editor = new Editor(
                     {
                         map: map
                     }, "editorDiv"
                 );
-                editor.startup();
+                this.editor.startup();
             }
 
         }));
-
-        var operationsPointLayer_facilidad = new FeatureLayer("https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/0", {
-            mode: FeatureLayer.MODE_ONDEMAND,
-            outFields: ["*"],
-            infoTemplate: popupFacilidades
-
-        });
-        var operationsPointLayer_medidoresp = new FeatureLayer("https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/1", {
-            mode: FeatureLayer.MODE_ONDEMAND,
-            outFields: ["*"],
-            infoTemplate: popupMedidores
-        });
-        var operationsPointLayer_pozos = new FeatureLayer("https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/2", {
-            mode: FeatureLayer.MODE_ONDEMAND,
-            outFields: ["*"],
-            infoTemplate: popupPozos
-        });
-        var operationsPointLayer_tanques = new FeatureLayer("https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/3", {
-            mode: FeatureLayer.MODE_ONDEMAND,
-            outFields: ["*"],
-            infoTemplate: popupTanques
-        });
-        var operationsPolygonLayer_contrato = new FeatureLayer("https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/4", {
-            mode: FeatureLayer.MODE_ONDEMAND,
-            outFields: ["*"],
-            infoTemplate: popupContratos
-        });
-
-        map.addLayers([
-            operationsPolygonLayer_contrato,
-            operationsPointLayer_pozos,
-            operationsPointLayer_tanques,
-            operationsPointLayer_medidoresp,
-            operationsPointLayer_facilidad
-        ]);
-        var layerList = new LayerList({
-            map: map,
-            removeUnderscores: true,
-            showOpacitySlider: true,
-            showSubLayers: true
-        }, "layerList");
-        layerList.startup();
-        on(layerList, 'load', function (evt) {
-            for (var i = 0; i < evt.detail.widget.layers.length; i++) {
-                if (evt.detail.widget.layers[i].id === 'layer0') {
-                    evt.detail.widget.layers.splice(i, 1);
+        addLayers();
+        map.on("layer-add", lang.hitch(this, function () {
+            var array = [];
+            var layers = Object.keys(map._layers);
+            for (var i = 0; i < layers.length; i++) {
+                var layer = {};
+                if (layers[i] !== 'layer0' && layers[i] !== 'map_graphics') {
+                    layer["layer"] = map._layers[layers[i]];
+                    if (map._layers[layers[i]].infoTemplate.info) {
+                        layer["title"] = map._layers[layers[i]].infoTemplate.info.title;
+                    }
+                    else {
+                        layer["title"] = map._layers[layers[i]].infoTemplate.title + " " + map._layers[layers[i]].id;
+                    }
+                    layer["visibility"] = true;
+                    array.push(layer);
                 }
             }
-            for (var i = 0; i < evt.detail.widget._loadedLayers.length; i++) {
-                if (evt.detail.widget._loadedLayers[i].layerInfo.id === 'layer0') {
-                    evt.detail.widget._loadedLayers.splice(i, 1);
+            if (this.layerList) {
+                this.layerList.destroy();
+                domConstruct.create("div", { id: "layerList", innerHTML: "" }, "layerListCon");
+                this.layerList = new LayerList({
+                    map: map,
+                    layers: array,
+                    removeUnderscores: true,
+                    showOpacitySlider: true,
+                    showSubLayers: true
+                }, "layerList");
+                this.layerList.startup();
 
-                }
             }
-            evt.detail.widget.refresh();
-        })
+            else {
+                this.layerList = new LayerList({
+                    map: map,
+                    layers: array,
+                    removeUnderscores: true,
+                    showOpacitySlider: true,
+                    showSubLayers: true
+                }, "layerList");
+                this.layerList.startup();
+
+            }
+        }));
         var scalebar = new Scalebar({
             map: map,
             scalebarStyle: "ruler",
             scalebarUnit: "metric"
-        });        
+        });
         var home = new HomeButton({
             map: map
         }, "HomeButton");
@@ -130,8 +124,8 @@ define([
         var basemapGallery = new BasemapGallery({
             showArcGISBasemaps: true,
             map: map
-          }, "basemapGallery");
-          basemapGallery.startup();
+        }, "basemapGallery");
+        basemapGallery.startup();
         var legend = new Legend({
             map: map
         }, "legend");
@@ -153,7 +147,8 @@ define([
         );
         editor.startup();
         var busca = new buscar({
-            map: map
+            map: map,
+            configCapas: configCapas
         }, "busqueda");
         busca.startup();
         /*var identi=new identificar({
@@ -161,4 +156,67 @@ define([
             url:"http://localhost:6080/arcgis/rest/services/Capas/capasEdicion/MapServer"
         },"identificar");
         identi.startup();  */
+        function addLayers() {
+            var arrayLayers = [];
+            var operationsPointLayer_facilidad = new FeatureLayer(configCapas.capaFacilidades.url, {
+                mode: FeatureLayer.MODE_ONDEMAND,
+                outFields: ["*"],
+                infoTemplate: popupFacilidades,
+                id: configCapas.capaFacilidades.id
+
+            });
+            var operationsPointLayer_medidoresp = new FeatureLayer(configCapas.capaMedidores.url, {
+                mode: FeatureLayer.MODE_ONDEMAND,
+                outFields: ["*"],
+                infoTemplate: popupMedidores,
+                id: configCapas.capaMedidores.id
+            });
+            var operationsPointLayer_pozos = new FeatureLayer(configCapas.capaPozos.url, {
+                mode: FeatureLayer.MODE_ONDEMAND,
+                outFields: ["*"],
+                infoTemplate: popupPozos,
+                id: configCapas.capaPozos.id
+            });
+            var operationsPointLayer_tanques = new FeatureLayer(configCapas.capaTanques.url, {
+                mode: FeatureLayer.MODE_ONDEMAND,
+                outFields: ["*"],
+                infoTemplate: popupTanques,
+                id: configCapas.capaTanques.id
+            });
+            var operationsPolygonLayer_contrato = new FeatureLayer(configCapas.capaContratos.url, {
+                mode: FeatureLayer.MODE_ONDEMAND,
+                outFields: ["*"],
+                infoTemplate: popupContratos,
+                id: configCapas.capaContratos.id
+            });
+            arrayLayers.push(operationsPolygonLayer_contrato);            
+            arrayLayers.push(operationsPointLayer_tanques);
+            arrayLayers.push(operationsPointLayer_medidoresp);
+            arrayLayers.push(operationsPointLayer_pozos);
+            arrayLayers.push(operationsPointLayer_facilidad);
+            
+            for (var i = 0; i < arrayLayers.length; i++) {
+                var layerTemp = map.getLayer(arrayLayers[i].id);
+                if (layerTemp) {
+                    map.removeLayer(layerTemp);
+                }               
+                map.addLayer(arrayLayers[i]);
+            }
+        }
+        function removerRelaciones()
+        {
+            var layerIds=map.layerIds;
+            for(var i=0;i<layerIds.length;i++)
+            {
+                var layer=map.getLayer(layerIds[i]);
+                if(layer.infoTemplate.title)
+                {
+                    if(layer.infoTemplate.title==='Enlace')
+                    {
+                        map.removeLayer(layer);                        
+                    }
+                }
+            }
+
+        }
     });
