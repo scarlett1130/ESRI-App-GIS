@@ -51,7 +51,7 @@ define([
                 if (dojo.byId("editorDiv")) {
                     this.editor.template.destroy();
                     this.editor.destroy();
-                    this.editor = null;                    
+                    this.editor = null;
                 }
                 // else if (nval.title !== 'Busqueda') {
                 //     addLayers();
@@ -75,13 +75,15 @@ define([
             var layers = Object.keys(map._layers);
             for (var i = 0; i < layers.length; i++) {
                 var layer = {};
-                if (layers[i] !== 'layer0' && layers[i] !== 'map_graphics') {
+                if (!layers[i].includes("layer")  && layers[i] !== 'map_graphics') {
                     layer["layer"] = map._layers[layers[i]];
-                    if (map._layers[layers[i]].infoTemplate.info) {
-                        layer["title"] = map._layers[layers[i]].infoTemplate.info.title;
-                    }
-                    else {
-                        layer["title"] = map._layers[layers[i]].infoTemplate.title + " " + map._layers[layers[i]].id;
+                    if (layer._basemapGalleryLayerType) {
+                        if (map._layers[layers[i]].infoTemplate.info) {
+                            layer["title"] = map._layers[layers[i]].infoTemplate.info.title;
+                        }
+                        else {
+                            layer["title"] = map._layers[layers[i]].infoTemplate.title + " " + map._layers[layers[i]].id;
+                        }
                     }
                     layer["visibility"] = true;
                     array.push(layer);
@@ -189,31 +191,27 @@ define([
                 infoTemplate: popupContratos,
                 id: configCapas.capaContratos.id
             });
-            arrayLayers.push(operationsPolygonLayer_contrato);            
+            arrayLayers.push(operationsPolygonLayer_contrato);
             arrayLayers.push(operationsPointLayer_tanques);
             arrayLayers.push(operationsPointLayer_medidoresp);
             arrayLayers.push(operationsPointLayer_pozos);
             arrayLayers.push(operationsPointLayer_facilidad);
-            
+
             for (var i = 0; i < arrayLayers.length; i++) {
                 var layerTemp = map.getLayer(arrayLayers[i].id);
                 if (layerTemp) {
                     map.removeLayer(layerTemp);
-                }               
+                }
                 map.addLayer(arrayLayers[i]);
             }
         }
-        function removerRelaciones()
-        {
-            var layerIds=map.layerIds;
-            for(var i=0;i<layerIds.length;i++)
-            {
-                var layer=map.getLayer(layerIds[i]);
-                if(layer.infoTemplate.title)
-                {
-                    if(layer.infoTemplate.title==='Enlace')
-                    {
-                        map.removeLayer(layer);                        
+        function removerRelaciones() {
+            var layerIds = map.layerIds;
+            for (var i = 0; i < layerIds.length; i++) {
+                var layer = map.getLayer(layerIds[i]);
+                if (layer.infoTemplate.title) {
+                    if (layer.infoTemplate.title === 'Enlace') {
+                        map.removeLayer(layer);
                     }
                 }
             }
