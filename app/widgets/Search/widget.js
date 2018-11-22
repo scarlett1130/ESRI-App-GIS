@@ -47,6 +47,7 @@ define([
       baseClass: 'widget-search',
       map: null,
       configCapas: null,
+      checkBoxes:null,
       jsonFacilidades: {},
 
       postCreate: function () {
@@ -423,9 +424,9 @@ define([
       },
       _enableRelaciones: function (layers) {
         document.getElementById("relaciones").style.display = "block";
-        if (typeof (checkBoxes) === 'undefined') {
-          checkBoxes = Object.keys(layers).map((d) => { return layers[d] });
-          checkBoxes.forEach(lang.hitch(this, function (element) {
+        if (this.checkBoxes === null) {
+          this.checkBoxes = Object.keys(layers).map((d) => { return layers[d] });
+          this.checkBoxes.forEach(lang.hitch(this, function (element) {
             dojo.byId(`lbl${element.key}`).innerText = element.layerLabel;
             var checkBox = new CheckBox({
               name: element.key,

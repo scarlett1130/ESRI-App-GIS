@@ -1,7 +1,8 @@
 {
     "capaPozos":{
         "url":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/2",
-        "id":"capa_Pozos_3"
+        "id":"capa_Pozos_3",
+        "title":"Pozogeo"
     },
     "capaContratos":{
         "url":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/4",

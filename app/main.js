@@ -1,5 +1,6 @@
 var editor = null;
 var layerList = null;
+var search = null;
 define([
     "esri/config",
     "esri/map",
@@ -47,37 +48,103 @@ define([
         var map = maputils;
         var tabEditor = dijit.byId("editor");
         tabEditor.watch("selectedChildWidget", lang.hitch(this, function (name, oval, nval) {
-            if (nval.title !== 'Editor') {
-                if (dojo.byId("editorDiv")) {
-                    this.editor.template.destroy();
-                    this.editor.destroy();
-                    this.editor = null;
-                }
-                // else if (nval.title !== 'Busqueda') {
-                //     addLayers();
-                //     //removerRelaciones();                
-                // }
-            }
-            else {
-                domConstruct.create("div", { id: "editorDiv", innerHTML: "" }, "templatePickerPane");
-                this.editor = new Editor(
-                    {
-                        map: map
-                    }, "editorDiv"
-                );
-                this.editor.startup();
+            switch (nval.title) {
+                case "Editor":
+                    domConstruct.create("div", { id: "editorDiv", innerHTML: "" }, "templatePickerPane");
+                    this.editor = new Editor(
+                        {
+                            map: map
+                        }, "editorDiv"
+                    );
+                    this.editor.startup();
+                    break;
+                case "Busqueda":
+                    this.search.checkBoxes = null;
+                    this.search.destroy();
+                    domConstruct.create("div", { id: "busqueda", innerHTML: "" }, "busquedaPanel");
+                    this.search = new buscar({
+                        map: map,
+                        configCapas: configCapas
+                    }, "busqueda");
+                    this.search.startup();
+                    if (dojo.byId("editorDiv")) {
+                        this.editor.template.destroy();
+                        this.editor.destroy();
+                        this.editor = null;
+                    }
+                    break;
+                case "Layer list":
+                    _addLayersList();
+                    if (dojo.byId("editorDiv")) {
+                        this.editor.template.destroy();
+                        this.editor.destroy();
+                        this.editor = null;
+                    }
+                    break;
+                default:
+                    if (dojo.byId("editorDiv")) {
+                        this.editor.template.destroy();
+                        this.editor.destroy();
+                        this.editor = null;
+                    }
+                    break;
             }
 
         }));
-        addLayers();
-        map.on("layer-add", lang.hitch(this, function () {
+        _addLayers();
+        map.on("layer-add", lang.hitch(this,function(){_addLayersList()}));
+        var scalebar = new Scalebar({
+            map: map,
+            scalebarStyle: "ruler",
+            scalebarUnit: "metric"
+        });
+        var home = new HomeButton({
+            map: map
+        }, "HomeButton");
+        home.startup();
+        var basemapGallery = new BasemapGallery({
+            showArcGISBasemaps: true,
+            map: map
+        }, "basemapGallery");
+        basemapGallery.startup();
+        var legend = new Legend({
+            map: map
+        }, "legend");
+        legend.startup();
+
+        /*var search = new Search({
+            map: map
+        }, "search");
+        search.startup();
+        var demoWidget = new WidgetDemo({
+            map: map,
+            url: 'http://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Counties_Generalized/FeatureServer/0'
+        }, 'demo');
+        demoWidget.startup();*/
+        editor = new Editor(
+            {
+                map: map
+            }, "editorDiv"
+        );
+        editor.startup();
+        search = new buscar({
+            map: map,
+            configCapas: configCapas
+        }, "busqueda");
+        search.startup();
+        /*var identi=new identificar({
+            map:map,
+            url:"http://localhost:6080/arcgis/rest/services/Capas/capasEdicion/MapServer"
+        },"identificar");
+        identi.startup();  */
+        function _addLayersList() {
             var array = [];
             var layers = Object.keys(map._layers);
             for (var i = 0; i < layers.length; i++) {
                 var layer = {};
-                if (!layers[i].includes("layer")  && layers[i] !== 'map_graphics') {
+                if (!layers[i].includes("layer") && layers[i] !== 'map_graphics') {
                     layer["layer"] = map._layers[layers[i]];
-                    if (layer._basemapGalleryLayerType) {
+                    if (!layer._basemapGalleryLayerType) {
                         if (map._layers[layers[i]].infoTemplate.info) {
                             layer["title"] = map._layers[layers[i]].infoTemplate.info.title;
                         }
@@ -113,52 +180,9 @@ define([
                 this.layerList.startup();
 
             }
-        }));
-        var scalebar = new Scalebar({
-            map: map,
-            scalebarStyle: "ruler",
-            scalebarUnit: "metric"
-        });
-        var home = new HomeButton({
-            map: map
-        }, "HomeButton");
-        home.startup();
-        var basemapGallery = new BasemapGallery({
-            showArcGISBasemaps: true,
-            map: map
-        }, "basemapGallery");
-        basemapGallery.startup();
-        var legend = new Legend({
-            map: map
-        }, "legend");
-        legend.startup();
 
-        /*var search = new Search({
-            map: map
-        }, "search");
-        search.startup();
-        var demoWidget = new WidgetDemo({
-            map: map,
-            url: 'http://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Counties_Generalized/FeatureServer/0'
-        }, 'demo');
-        demoWidget.startup();*/
-        editor = new Editor(
-            {
-                map: map
-            }, "editorDiv"
-        );
-        editor.startup();
-        var busca = new buscar({
-            map: map,
-            configCapas: configCapas
-        }, "busqueda");
-        busca.startup();
-        /*var identi=new identificar({
-            map:map,
-            url:"http://localhost:6080/arcgis/rest/services/Capas/capasEdicion/MapServer"
-        },"identificar");
-        identi.startup();  */
-        function addLayers() {
+        }
+        function _addLayers() {
             var arrayLayers = [];
             var operationsPointLayer_facilidad = new FeatureLayer(configCapas.capaFacilidades.url, {
                 mode: FeatureLayer.MODE_ONDEMAND,
