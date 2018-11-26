@@ -87,7 +87,7 @@ define([
           document.getElementById("combosSearch").style.display = "none";
           document.getElementById("relaciones").style.display = "none";
           this._consulta(this.config.urlContrato, ["CONTRATO_N", "ID_CONTRATO"], "CONTRATO_N", "CONTRATO_N is not null and ID_CONTRATO is not null and id_contrato=" + select.item.id_contrato, this._zoomFeatures, true);
-          this._consulta(this.config.urlFacilidades, ["facilidad", "id_facilidad"], "facilidad", "facilidad is not null and id_facilidad is not null and id_contrato=" + select.item.id_contrato, this._jsonFacilidades, false);
+          this._consulta(this.config.urlFacilidades, ["facilidad", "id_facilidad"], "facilidad", "facilidad is not null and id_facilidad is not null and id_contrato=" + select.item.id_contrato, this._jsonFacilidades, true);
           this._agregarLayer(this.configCapas.capaMedidores.url, this.configCapas.capaMedidores.id, "1=1", popupMedidores);
           this._agregarLayer(this.configCapas.capaPozos.url, this.configCapas.capaPozos.id, "1=1", popupPozos);
           this._agregarLayer(this.configCapas.capaTanques.url, this.configCapas.capaTanques.id, "1=1", popupTanques);
@@ -100,8 +100,8 @@ define([
         jsonFacilidades.facilidades = [];
         results.features.forEach(lang.hitch(this, function (elemento) {
           var jsonFacilidad = {};
-          jsonFacilidad["nombre"] = elemento.attributes.facilidad;
-          jsonFacilidad["id_facilidad"] = elemento.attributes.id_facilidad;
+          jsonFacilidad["nombre"] = elemento.attributes.FACILIDAD;
+          jsonFacilidad["id_facilidad"] = elemento.attributes.ID_FACILIDAD;
           jsonFacilidades.facilidades.push(jsonFacilidad);
         }));
         if (jsonFacilidades.facilidades.length > 0) {
@@ -140,8 +140,8 @@ define([
         selectedItems.pozo = results;
         results.features.forEach(function (elemento) {
           var jsonPozo = {};
-          jsonPozo["nombre"] = elemento.attributes.pozo;
-          jsonPozo["id_pozo"] = elemento.attributes.id_pozo;
+          jsonPozo["nombre"] = elemento.attributes.POZO;
+          jsonPozo["id_pozo"] = elemento.attributes.ID_POZO;
           jsonPozos.pozos.push(jsonPozo);
         });
         this._crearCombo(jsonPozos.pozos, "selectPozos", "selectPozos", "nombre");
@@ -149,7 +149,7 @@ define([
         select.on('change', lang.hitch(this, function () {
           this._consulta(this.config.urlPozos, ["pozo", "id_pozo"], "pozo", "id_pozo=" + select.item.id_pozo, this._zoomFeatures, true);
         }));
-        this._agregarLayer(this.configCapas.capaPozos.url, this.configCapas.capaPozos.id, "pozo is not null and id_pozo is not null and id_facilidad=" + results.features[0].attributes.id_facilidad, popupPozos);
+        this._agregarLayer(this.configCapas.capaPozos.url, this.configCapas.capaPozos.id, "pozo is not null and id_pozo is not null and id_facilidad=" + results.features[0].attributes.ID_FACILIDAD, popupPozos);
       },
       _jsonTanques: function (results) {
         dojo.byId("labelTanques").innerHTML = "<label>Seleccione el taque</label>";
@@ -158,8 +158,8 @@ define([
         selectedItems.tanque = results;
         results.features.forEach(function (elemento) {
           var jsonTanque = {};
-          jsonTanque["nombre"] = elemento.attributes.tanque;
-          jsonTanque["id_tanque"] = elemento.attributes.id_tanque;
+          jsonTanque["nombre"] = elemento.attributes.TANQUE;
+          jsonTanque["id_tanque"] = elemento.attributes.ID_TANQUE;
           jsonTanques.tanques.push(jsonTanque);
         });
         this._crearCombo(jsonTanques.tanques, "selectTanques", "selectTanques", "nombre");
@@ -167,7 +167,7 @@ define([
         select.on('change', lang.hitch(this, function () {
           this._consulta(this.config.urlTanques, ["tanque", "id_tanque"], "tanque", "id_tanque=" + select.item.id_tanque, this._zoomFeatures, true);
         }));
-        this._agregarLayer(this.configCapas.capaTanques.url, this.configCapas.capaTanques.id, "tanque is not null and id_tanque is not null and id_facilidad=" + results.features[0].attributes.id_facilidad, popupTanques);
+        this._agregarLayer(this.configCapas.capaTanques.url, this.configCapas.capaTanques.id, "tanque is not null and id_tanque is not null and id_facilidad=" + results.features[0].attributes.ID_FACILIDAD, popupTanques);
 
       },
       _jsonMedidores: function (results) {
@@ -177,8 +177,8 @@ define([
         selectedItems.medidor = results;
         results.features.forEach(function (elemento) {
           var jsonmedidor = {};
-          jsonmedidor["nombre"] = elemento.attributes.medidor;
-          jsonmedidor["id_medidor"] = elemento.attributes.id_medidor;
+          jsonmedidor["nombre"] = elemento.attributes.MEDIDOR;
+          jsonmedidor["id_medidor"] = elemento.attributes.ID_MEDIDOR;
           jsonMedidores.medidores.push(jsonmedidor);
         });
         this._crearCombo(jsonMedidores.medidores, "selectMedidores", "selectMedidores", "nombre");
@@ -186,7 +186,7 @@ define([
         select.on('change', lang.hitch(this, function () {
           this._consulta(this.config.urlMedidores, ["medidor", "id_medidor"], "medidor", "id_medidor=" + select.item.id_medidor, this._zoomFeatures, true);
         }));
-        this._agregarLayer(this.configCapas.capaMedidores.url, this.configCapas.capaMedidores.id, "medidor is not null and id_medidor is not null and id_facilidad=" + results.features[0].attributes.id_facilidad, popupMedidores);
+        this._agregarLayer(this.configCapas.capaMedidores.url, this.configCapas.capaMedidores.id, "medidor is not null and id_medidor is not null and id_facilidad=" + results.features[0].attributes.ID_FACILIDAD, popupMedidores);
       },
       _crearSelect: function (array, nam, label, domId, clave) {
         var combo = dijit.byId(domId + "-" + nam);
@@ -279,13 +279,14 @@ define([
           this.map.setExtent(extentResultado);
         }
 
-        if (results.fields.find(d => d.name == "id_facilidad")) {
+        if (results.fields.find(d => d.name == "ID_FACILIDAD")) {
           selectedItems.facilidad = results;
         }
       },
       _crearFeature: function (checked, b) {
 
         var nameLayer = b.key;
+        nameLayer=nameLayer.toLowerCase();
         var layerTemp = this.map.getLayer(nameLayer);
 
         if (layerTemp) {
@@ -337,7 +338,7 @@ define([
             var graphic = {
               'attributes': {
                 "objectid": index,
-                "origen": selectedItems.facilidad.features[0].attributes.facilidad,
+                "origen": selectedItems.facilidad.features[0].attributes.FACILIDAD,
                 "destino": currentValue.attributes[b.key]
               },
               'geometry': new Polyline(t)

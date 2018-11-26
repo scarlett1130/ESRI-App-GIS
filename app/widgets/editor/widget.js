@@ -78,8 +78,8 @@ define([
         }
         this.template = new TemplatePicker({
           featureLayers: templateLayers,
-          grouping: false,
-          rows: 6,
+          grouping: true,
+          rows: 10,
           columns: "auto",
           useLegend: false,
           style: "height: 100%"

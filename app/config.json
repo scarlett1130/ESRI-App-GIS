@@ -1,23 +1,27 @@
 {
     "capaPozos":{
-        "url":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/2",
-        "id":"capa_Pozos_3",
-        "title":"Pozogeo"
+        "url_":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/2",
+        "url":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/2",
+        "id":"capa_Pozos_3"       
     },
     "capaContratos":{
-        "url":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/4",
+        "url_":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/4",
+        "url":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/4",
         "id":"capa_Contratos_5"
     },
     "capaMedidores":{
-        "url":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/1",
+        "url_":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/1",
+        "url":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/0",
         "id":"capa_Medidores_2"
     },
     "capaFacilidades":{
-        "url":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/0",
+        "url_":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/0",
+        "url":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/3",
         "id":"capa_Facilidad_1"
     },
     "capaTanques":{
-        "url":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/3",
+        "url_":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/3",
+        "url":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/1",
         "id":"capa_Tanques_4"
     }
 }

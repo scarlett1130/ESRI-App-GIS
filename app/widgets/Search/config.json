@@ -1,24 +1,29 @@
 {
-    "urlContrato": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/4",
-    "urlFacilidades": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/0",
-    "urlPozos": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/2",
-    "urlTanques": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/3",
-    "urlMedidores": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/1",
+    "urlContrato_": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/4",
+    "urlFacilidades_": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/0",
+    "urlPozos_": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/2",
+    "urlTanques-": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/3",
+    "urlMedidores_": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/1",
+    "urlContrato": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/4",
+    "urlFacilidades": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/3",
+    "urlPozos": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/2",
+    "urlTanques": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/1",
+    "urlMedidores": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/0",
     "layers": {
         "pozos": {
             "color": [0,255,0],
             "layerLabel":"Enlaces pozos",
-            "key":"pozo"
+            "key":"POZO"
         },
         "tanques": {
             "color": [0,0,255],
             "layerLabel":"Enlaces tanques",
-            "key":"tanque"
+            "key":"TANQUE"
         },
         "medidores": {
             "color": [255,0,0],
             "layerLabel":"Enlaces medidores",
-            "key":"medidor"
+            "key":"MEDIDOR"
         }
     }
 }
