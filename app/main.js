@@ -48,7 +48,7 @@ define([
         parser.parse();
         var configCapas = JSON.parse(config);
         var map = maputils;
-        var tabEditor = dijit.byId("editor");
+        var tabEditor = dijit.byId("editor2");
         tabEditor.watch("selectedChildWidget", lang.hitch(this, function (name, oval, nval) {
             switch (nval.title) {
                 case "Edición":
