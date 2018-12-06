@@ -50,7 +50,7 @@ define([
         var tabEditor = dijit.byId("editor");
         tabEditor.watch("selectedChildWidget", lang.hitch(this, function (name, oval, nval) {
             switch (nval.title) {
-                case "Editor":
+                case "Edición":
                     domConstruct.create("div", { id: "editorDiv", innerHTML: "" }, "templatePickerPane");
                     this.editor = new Editor(
                         {
@@ -69,22 +69,22 @@ define([
                     }, "busqueda");
                     this.search.startup();
                     if (dojo.byId("editorDiv")) {
-                        this.editor.template.destroy();
+                        // this.editor.template.destroy();
                         this.editor.destroy();
                         this.editor = null;
                     }
                     break;
-                case "Layer list":
+                case "Capas":
                     _addLayersList();
                     if (dojo.byId("editorDiv")) {
-                        this.editor.template.destroy();
+                        // this.editor.template.destroy();
                         this.editor.destroy();
                         this.editor = null;
                     }
                     break;
                 default:
                     if (dojo.byId("editorDiv")) {
-                        this.editor.template.destroy();
+                        // this.editor.template.destroy();
                         this.editor.destroy();
                         this.editor = null;
                     }
@@ -148,12 +148,13 @@ define([
                     if (!layer._basemapGalleryLayerType) {
                         if (map._layers[layers[i]].infoTemplate.info) {
                             layer["title"] = map._layers[layers[i]].infoTemplate.info.title;
+                            layer["visibility"] = map._layers[layers[i]].visible;
                         }
                         else {
                             layer["title"] = map._layers[layers[i]].infoTemplate.title + " " + map._layers[layers[i]].id;
+                            layer["visibility"] = map._layers[layers[i]].visible;
                         }
-                    }
-                    layer["visibility"] = true;
+                    }                    
                     array.push(layer);
                 }
             }

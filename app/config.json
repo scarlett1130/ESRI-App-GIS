@@ -1,7 +1,7 @@
 {
     "capaPozos":{
         "url_":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/2",
-        "url":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/2",
+        "url":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/3",
         "id":"capa_Pozos_3"       
     },
     "capaContratos":{
@@ -16,12 +16,12 @@
     },
     "capaFacilidades":{
         "url_":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/0",
-        "url":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/3",
+        "url":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/1",
         "id":"capa_Facilidad_1"
     },
     "capaTanques":{
         "url_":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/3",
-        "url":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/1",
+        "url":"https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/2",
         "id":"capa_Tanques_4"
     }
 }

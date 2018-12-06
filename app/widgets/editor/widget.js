@@ -76,7 +76,7 @@ define([
           }
 
         }
-        this.template = new TemplatePicker({
+        /*this.template = new TemplatePicker({
           featureLayers: templateLayers,
           grouping: true,
           rows: 10,
@@ -84,7 +84,7 @@ define([
           useLegend: false,
           style: "height: 100%"
         }, "editorDivPanel");
-        this.template.startup();
+        this.template.startup();*/
 
         var featureLayerInfos = [];
         for (var i = 0; i < featureLayerInfos1.length; i++) {
@@ -95,13 +95,13 @@ define([
         }
         var settings = {
           map: this.map,
-          templatePicker: this.template,
+          // templatePicker: this.template,
           layerInfos: featureLayerInfos
         };
         var params = {
           settings: settings
         };
-        editorWidget = new Editor(params,"editorMap");
+        editorWidget = new Editor(params,"editorDivPanel");
         editorWidget.startup();
         this.map.enableSnapping();
       }

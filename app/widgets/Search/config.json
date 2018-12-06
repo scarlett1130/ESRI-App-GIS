@@ -5,9 +5,9 @@
     "urlTanques-": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/3",
     "urlMedidores_": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/1",
     "urlContrato": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/4",
-    "urlFacilidades": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/3",
-    "urlPozos": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/2",
-    "urlTanques": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/1",
+    "urlFacilidades": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/1",
+    "urlPozos": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/3",
+    "urlTanques": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/2",
     "urlMedidores": "https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/DatosDef/FeatureServer/0",
     "layers": {
         "pozos": {
