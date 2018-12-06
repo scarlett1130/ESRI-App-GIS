@@ -38,6 +38,25 @@ body {
   padding: 0;
 }
 
+#resizer{
+  width: 10px;
+  background-color: gainsboro;
+  position: fixed;
+  cursor: pointer;
+  border-radius: 0px 10px 10px 0px;
+  background-image: url("images/left-arrow.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right;
+  border: solid 1px gray;
+  padding: 1px;
+  border-left: 0px;
+}
+
+#resizer.closed{
+  background-image: url("images/right-arrow.png");
+}
+
 .esriEditor .templatePicker {
   padding-bottom: 5px;
   padding-top: 5px;

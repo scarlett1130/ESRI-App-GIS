@@ -31,6 +31,7 @@ define([
     "dojo/_base/array",
     "dojo/i18n!esri/nls/jsapi",
     'dojo/text!./config.json',
+    "dojo/aspect",
     "dijit/layout/BorderContainer",
     "dijit/layout/ContentPane",
     "dijit/layout/TabContainer",
@@ -41,7 +42,7 @@ define([
     WidgetDemo, Editor, identificar, buscar, maputils, popupMedidores,
     popupContratos, popupFacilidades, popupPozos, popupTanques,
     FeatureLayer, Scalebar, HomeButton, BasemapGallery,
-    Draw, domConstruct, keys, on, parser, lang, arrayUtils, i18n, config
+    Draw, domConstruct, keys, on, parser, lang, arrayUtils, i18n, config, aspect
 ) {
 
         parser.parse();
@@ -93,7 +94,7 @@ define([
 
         }));
         _addLayers();
-        map.on("layer-add", lang.hitch(this,function(){_addLayersList()}));
+        map.on("layer-add", lang.hitch(this, function () { _addLayersList() }));
         var scalebar = new Scalebar({
             map: map,
             scalebarStyle: "ruler",
@@ -138,6 +139,16 @@ define([
             url:"http://localhost:6080/arcgis/rest/services/Capas/capasEdicion/MapServer"
         },"identificar");
         identi.startup();  */
+
+
+        // resizePanel(200);
+        var resizer = dojo.query("#resizer");
+        var mainWindow = dijit.byId('mainWindow');
+        var leftPanel = dijit.byId('editor');
+        var splitter = mainWindow.getSplitter('leading');
+
+        initResizer();
+
         function _addLayersList() {
             var array = [];
             var layers = Object.keys(map._layers);
@@ -154,7 +165,7 @@ define([
                             layer["title"] = map._layers[layers[i]].infoTemplate.title + " " + map._layers[layers[i]].id;
                             layer["visibility"] = map._layers[layers[i]].visible;
                         }
-                    }                    
+                    }
                     array.push(layer);
                 }
             }
@@ -242,5 +253,41 @@ define([
                 }
             }
 
+        }
+        function initResizer() {
+            var resizerHeight = 50;
+            var splitterLeft = dojo.marginBox(splitter.domNode).l;
+            var splitterWidth = dojo.marginBox(splitter.domNode).w;
+            var splitterHeight = dojo.marginBox(splitter.domNode).h;
+
+            dojo.style(resizer[0], "left", `${splitterLeft + splitterWidth}px`);
+            dojo.style(resizer[0], "top", `${(splitterHeight - resizerHeight) / 2}px`);
+            dojo.style(resizer[0], "height", `${resizerHeight}px`);
+
+            on(resizer, 'click', resizePanel);
+
+            aspect.after(splitter, "_startDrag", function (a, b) {
+                dojo.style(resizer[0], "display", "none");
+            });
+
+            aspect.after(splitter, "_stopDrag", function (a, b) {
+                var splitterLeft = dojo.marginBox(splitter.domNode).l;
+                var splitterWidth = dojo.marginBox(splitter.domNode).w;
+                dojo.style(resizer[0], "left", `${splitterLeft + splitterWidth}px`);
+                dojo.style(resizer[0], "display", "inherit");
+            });
+        }
+        function resizePanel(event) {
+            var controlCssClass = 'closed';
+            dojo.toggleClass(event.target, controlCssClass);
+            var pWidth = (dojo.hasClass(event.target, controlCssClass)) ? 0 : 255;
+
+            dojo.style(leftPanel.domNode, "width", `${pWidth}px`);
+            mainWindow.resize();
+
+            var splitterLeft = dojo.marginBox(splitter.domNode).l;
+            var splitterWidth = dojo.marginBox(splitter.domNode).w;
+
+            dojo.style(event.target, "left", `${splitterLeft + splitterWidth}px`);
         }
     });
