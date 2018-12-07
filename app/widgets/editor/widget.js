@@ -76,15 +76,16 @@ define([
           }
 
         }
-        /*this.template = new TemplatePicker({
+        this.template = new TemplatePicker({
           featureLayers: templateLayers,
-          grouping: true,
-          rows: 10,
-          columns: "auto",
-          useLegend: false,
-          style: "height: 100%"
-        }, "editorDivPanel");
-        this.template.startup();*/
+          grouping: false,
+          rows: 7,
+          columns: 3,
+          showTooltip:true,
+          useLegend: true,
+          style: {width: "100%", height:"300px"}
+        }, "templatePickerDiv");
+        this.template.startup();
 
         var featureLayerInfos = [];
         for (var i = 0; i < featureLayerInfos1.length; i++) {
@@ -95,13 +96,16 @@ define([
         }
         var settings = {
           map: this.map,
-          // templatePicker: this.template,
-          layerInfos: featureLayerInfos
+          templatePicker: this.template,
+          layerInfos: featureLayerInfos,
+          enableUndoRedo:true,
+          toolbarVisible:true,
         };
         var params = {
           settings: settings
         };
-        editorWidget = new Editor(params,"editorDivPanel");
+        editorWidget = new Editor(params,"editorMap");
+        console.log(editorWidget.templatePicker);
         editorWidget.startup();
         this.map.enableSnapping();
       }

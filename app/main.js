@@ -107,12 +107,9 @@ define([
         var basemapGallery = new BasemapGallery({
             showArcGISBasemaps: true,
             map: map
-        }, "basemapGallery");
+        }, "basemapGallery");        
         basemapGallery.startup();
-        var legend = new Legend({
-            map: map
-        }, "legend");
-        legend.startup();
+        
 
         /*var search = new Search({
             map: map
@@ -134,6 +131,22 @@ define([
             configCapas: configCapas
         }, "busqueda");
         search.startup();
+        var layerinfos = [];
+        var layers = Object.keys(map._layers);
+        for (var i = 0; i < layers.length; i++) {
+            var layer = {};
+            if (!layers[i].includes("layer") && layers[i] !== 'map_graphics') {
+                layer["layer"] = map._layers[layers[i]];
+                var titulo=map._layers[layers[i]].id.split("_");
+                layer["title"] = titulo[1];
+                layerinfos.push(layer);
+            }
+        }
+        var legend = new Legend({
+            map: map,
+            layerInfos: layerinfos
+        }, "legend");
+        legend.startup();
         /*var identi=new identificar({
             map:map,
             url:"http://localhost:6080/arcgis/rest/services/Capas/capasEdicion/MapServer"
@@ -226,7 +239,7 @@ define([
                 mode: FeatureLayer.MODE_ONDEMAND,
                 outFields: ["*"],
                 infoTemplate: popupContratos,
-                id: configCapas.capaContratos.id
+                id: configCapas.capaContratos.id               
             });
             arrayLayers.push(operationsPolygonLayer_contrato);
             arrayLayers.push(operationsPointLayer_tanques);
