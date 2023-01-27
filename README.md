@@ -1,12 +1,8 @@
 # ESRI-App-GIS
-Visor web geográfico con funcionalidades de edición.
+Geographic web viewer with editing features.
 
-## Servicios utilizados
-- https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Datos/FeatureServer/
+## Services used
+- https://services9.arcgis.com/mUzsVrpsS8a8ZBgW/ArcGIS/rest/services/Data/FeatureServer/
 
-## Primera versión básada en el ejemplo de ArcGIS:
+## First version based on the ArcGIS example:
 - https://developers.arcgis.com/javascript/3/sandbox/sandbox.html?sample=ed_default_editingwidget
-
-## Ejemplo ```embedded```
-Un ejemplo embebiendo el visor en un página web se presenta en [https://jofremanchola.github.io/ESRI-App-GIS/embeddedExample.html](https://jofremanchola.github.io/ESRI-App-GIS/embeddedExample.html)
-...
